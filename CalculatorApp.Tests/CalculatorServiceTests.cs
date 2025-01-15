@@ -44,12 +44,17 @@ namespace CalculatorApp.Tests
 			value = calculatorService.GetSum("1,abc", true);
 			Assert.AreEqual("1+0 = 1", value);
 
+			bool failed = false;
 			try
 			{
 				value = calculatorService.GetSum("1,2,3", false);
-				Assert.Fail("This should have thrown an exception as there are too many values");
 			}
-			catch (Exception ex) { }
+			catch (Exception)
+			{ 
+				failed = true;
+			}
+
+			Assert.IsTrue(failed, "This should have thrown an exception as there are too many values");
 
 		}
 	}
