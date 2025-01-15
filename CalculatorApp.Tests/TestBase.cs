@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CalculatorApp.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CalculatorApp.Tests
 {
@@ -11,6 +12,7 @@ namespace CalculatorApp.Tests
 			// Wire up DI
 			_serviceProvider = new ServiceCollection()
 							.AddSingleton<ICalculatorService, CalculatorService>()
+							.AddSingleton<ICalculatorInputParser, CalculatorInputParser>()
 							.BuildServiceProvider();
 
 		}

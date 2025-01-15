@@ -73,6 +73,14 @@ namespace CalculatorApp.Tests
 
 			value = calculatorService.GetSum("1,999.99,2", false);
 			Assert.AreEqual("1002.99", value);
+
+			// Req 6. check for custom delimiter of form //{delimiter}\n{numbers}
+			value = calculatorService.GetSum("//#\n2#5", false);
+			Assert.AreEqual("7", value);
+
+			value = calculatorService.GetSum("//,\n2,ff,100", false);
+			Assert.AreEqual("102", value);
+
 		}
 	}	// class
 }	// namespace

@@ -1,15 +1,18 @@
-﻿namespace CalculatorApp
+﻿using CalculatorApp.Interfaces;
+
+namespace CalculatorApp
 {
 	/// <summary>
 	/// Performs challenge calculator options
 	/// </summary>
 	public class CalculatorService : ICalculatorService
 	{
-		/// <summary>
-		/// Supported delimiters
-		/// </summary>
-		protected char[] _delimiters = { ',', '\n' };
-		
+		protected readonly ICalculatorInputParser _inputParser;
+		public CalculatorService(ICalculatorInputParser inputParser)
+		{
+			_inputParser = inputParser;
+		}
+
 		/// <summary>
 		/// Maximum allowed value to sum, otherwise treat as 0
 		/// </summary>
@@ -23,9 +26,7 @@
 		/// <returns>formula used and the sum</returns>
 		public string GetSum(string? input, bool showFormula)
 		{
-			if (string.IsNullOrWhiteSpace(input))
-				input = "0";
-			var parts = input.Split(_delimiters);
+			var parts = _inputParser.GetInputs(input);
 
 			var numbers = parts.Select(p => StringToNumberInRange(p));
 

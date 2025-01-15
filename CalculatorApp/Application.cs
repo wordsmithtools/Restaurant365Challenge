@@ -19,7 +19,7 @@
 			string sum;
 			while (true)
 			{   // continue to accept inputs until program is closed
-				Console.WriteLine("Enter a maximum of 2 numbers using a comma delimiter:");
+				Console.WriteLine("Enter your input string:");
 
 				string? input = Console.ReadLine();
 
