@@ -14,5 +14,6 @@ namespace CalculatorApp.Tests
 							.BuildServiceProvider();
 
 		}
+
 	}	// class
 }	// namespace

@@ -22,27 +22,30 @@
 				input = "0";
 			var parts = input.Split(_delimiters);
 
-			ValidateInput(parts);
-
 			var numbers = parts.Select(p => StringToNumber(p));
+
+			ValidateInput(numbers);
+
 			if (showFormula)
 				return string.Join('+', numbers) + " = " + numbers.Sum();
 			else
 				return numbers.Sum().ToString();
-		}	// GetSum
+		}   // GetSum
 
 		/// <summary>
 		/// Run validation checks on input
 		/// </summary>
-		/// <param name="parts"></param>
+		/// <param name="numbers"></param>
 		/// <exception cref="Exception"></exception>
-		void ValidateInput(string[] parts)
+		void ValidateInput(IEnumerable<decimal> numbers)
 		{
-			// This constraint removed 1/15/2025 per Requirement #2
-			// Throw an exception when more than 2 numbers are provided
-			// if (parts.Length > 2)
-			//	throw new Exception("A maximum of 2 numbers may be provided");
-		}
+			// Req 4. Deny negative numbers by throwing an exception that includes all of the negative numbers provided
+			var negativeNumbers = numbers.Where(n => n < 0);
+			if (negativeNumbers.Any())
+			{
+				throw new Exception("The following negative numbers are not permitted: " + string.Join(",", negativeNumbers));
+			}
+		}   // ValidateInput
 
 		/// <summary>
 		/// Convert string value to a decimal number, treating empty or invalid input as 0

@@ -51,8 +51,15 @@ namespace CalculatorApp.Tests
 			value = calculatorService.GetSum("1\n2,3", false);
 			Assert.AreEqual("6", value);
 
-			value = calculatorService.GetSum("-1\n2\nabc", false);
-			Assert.AreEqual("1", value);
+			value = calculatorService.GetSum("1\n2\nabc", false);
+			Assert.AreEqual("3", value);
+
+			// Req 4. Deny negative numbers by throwing an exception that includes all of the negative numbers provided
+			var ex = Assert.ThrowsException<Exception>(() => calculatorService.GetSum("1,-1", false));
+			Assert.IsTrue(ex.Message.EndsWith(": -1"));
+
+			ex = Assert.ThrowsException<Exception>(() => calculatorService.GetSum("1,-1,-.5", false));
+			Assert.IsTrue(ex.Message.EndsWith(": -1,-0.5"));
 
 
 			// constraint removed in Req. 2
@@ -68,5 +75,5 @@ namespace CalculatorApp.Tests
 			//Assert.IsTrue(failed, "This should have thrown an exception as there are too many values");
 
 		}
-	}
-}
+	}	// class
+}	// namespace
