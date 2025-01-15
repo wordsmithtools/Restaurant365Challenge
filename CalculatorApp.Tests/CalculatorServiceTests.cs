@@ -78,6 +78,9 @@ namespace CalculatorApp.Tests
 			value = calculatorService.GetSum("//#\n2#5", false);
 			Assert.AreEqual("7", value);
 
+			value = calculatorService.GetSum("2#5,", false);
+			Assert.AreEqual("0", value);
+
 			value = calculatorService.GetSum("//,\n2,ff,100", false);
 			Assert.AreEqual("102", value);
 
@@ -99,6 +102,17 @@ namespace CalculatorApp.Tests
 
 			value = calculatorService.GetSum("//[12]\n5125", false);
 			Assert.AreEqual("10", value);
+
+			// Req 8. Support multiple delimiters of any length using the format: //[{delimiter1}][{delimiter2}]...\n{numbers}
+			value = calculatorService.GetSum("//[*][!!][r9r]\n11r9r22*hh*33!!44", false);
+			Assert.AreEqual("110", value);
+
+			value = calculatorService.GetSum("//[*][!!][][]]\n1*2!!3*0!2", false);
+			Assert.AreEqual("6", value);
+
+			value = calculatorService.GetSum(" //[*][!!][x]]\n1*2!!3*0!!2", false);
+			Assert.AreEqual("8", value);
+
 		}
 	}	// class
 }	// namespace

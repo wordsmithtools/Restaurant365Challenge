@@ -8,9 +8,9 @@ namespace CalculatorApp
 	public class CalculatorInputParser : ICalculatorInputParser
 	{
 		/// <summary>
-		/// Supported delimiters
+		/// Default delimiters
 		/// </summary>
-		protected List<string> _delimiters = [",", "\n"];
+		private static readonly List<string> DEFAULT_DELIMITERS =  [",", "\n"];
 
 		/// <summary>
 		/// Extract input args from single input string
@@ -24,15 +24,25 @@ namespace CalculatorApp
 
 			input = input.TrimStart();
 
-			// Req 7. Support 1 custom delimiter of any length using the format: //[{delimiter}]\n{numbers}
+			// make sure to reset delimiters each time parsing input
+			var delimiters = DEFAULT_DELIMITERS.ToList();
+
+			// Req 8. Support multiple delimiters of any length using the format: //[{delimiter1}][{delimiter2}]...\n{numbers}
 			// Could use RegEx here but is simple enough to parse manually
 			int endIxDelimiter = input.IndexOf("]\n");
 			if (input.Length >= 6 && input.Substring(0, 3) == "//[" &&
 				endIxDelimiter >= 4)
 			{
-				string delimiter = input.Substring(3, endIxDelimiter - 3);
-				if (!_delimiters.Contains(delimiter))
-					_delimiters.Add(delimiter); // add passed in delimiter if not already defined
+				string delimiterString = input.Substring(3, endIxDelimiter - 3);
+				// Assume delimiters are within brackets of either type. There is an edge case here where user may want to support delimiters that actually contain brackets.
+				// That is not supported, but could be handled if it was desired.
+				var delimitersFound = delimiterString.Split(['[', ']'], StringSplitOptions.RemoveEmptyEntries);
+
+				foreach (var delimiter in delimitersFound)
+				{
+					if (!delimiters.Contains(delimiter))
+						delimiters.Add(delimiter); // add passed in delimiter if not already defined
+				}
 
 				// strip this part
 				if (input.Length > endIxDelimiter + 2)
@@ -45,8 +55,8 @@ namespace CalculatorApp
 			if (input.Length >= 4 && input.Substring(0, 2) == "//" && input[3] == '\n')
 			{
 				string delimiter = input[2].ToString();
-				if (!_delimiters.Contains(delimiter))
-					_delimiters.Add(delimiter); // add passed in delimiter if not already defined
+				if (!delimiters.Contains(delimiter))
+					delimiters.Add(delimiter); // add passed in delimiter if not already defined
 
 				// strip this part
 				if (input.Length > 4)
@@ -55,7 +65,9 @@ namespace CalculatorApp
 					input = string.Empty;
 			}   // has custom delimiter
 
-			return input.Split(_delimiters.ToArray(), StringSplitOptions.None);
+			return input.Split(delimiters.ToArray(), StringSplitOptions.None);
 		}   // GetInputs
+
+		
 	}	// class
 }	// namespace
