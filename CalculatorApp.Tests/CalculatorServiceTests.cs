@@ -61,19 +61,18 @@ namespace CalculatorApp.Tests
 			ex = Assert.ThrowsException<Exception>(() => calculatorService.GetSum("1,-1,-.5", false));
 			Assert.IsTrue(ex.Message.EndsWith(": -1,-0.5"));
 
+			// Req 5. Make any value greater than 1000 an invalid number
+			value = calculatorService.GetSum("1,1000,2", false);
+			Assert.AreEqual("1003", value);
 
-			// constraint removed in Req. 2
-			//bool failed = false;
-			//try
-			//{
-			//	value = calculatorService.GetSum("1,2,3", false);
-			//}
-			//catch (Exception)
-			//{ 
-			//	failed = true;
-			//}
-			//Assert.IsTrue(failed, "This should have thrown an exception as there are too many values");
+			value = calculatorService.GetSum("1,1000.1,2", false);
+			Assert.AreEqual("3", value);
 
+			value = calculatorService.GetSum("1,1001,2", false);
+			Assert.AreEqual("3", value);
+
+			value = calculatorService.GetSum("1,999.99,2", false);
+			Assert.AreEqual("1002.99", value);
 		}
 	}	// class
 }	// namespace

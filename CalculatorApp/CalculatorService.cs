@@ -9,6 +9,11 @@
 		/// Supported delimiters
 		/// </summary>
 		protected char[] _delimiters = { ',', '\n' };
+		
+		/// <summary>
+		/// Maximum allowed value to sum, otherwise treat as 0
+		/// </summary>
+		private const decimal MAX_INPUT_VALUE = 1000;
 
 		/// <summary>
 		/// Sum a maximum of 2 numbers using a comma delimiter
@@ -22,7 +27,7 @@
 				input = "0";
 			var parts = input.Split(_delimiters);
 
-			var numbers = parts.Select(p => StringToNumber(p));
+			var numbers = parts.Select(p => StringToNumberInRange(p));
 
 			ValidateInput(numbers);
 
@@ -48,15 +53,19 @@
 		}   // ValidateInput
 
 		/// <summary>
-		/// Convert string value to a decimal number, treating empty or invalid input as 0
+		/// Convert string value in the range (up to 1000) to a decimal number, treating empty or invalid input as 0
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		decimal StringToNumber(string value)
+		decimal StringToNumberInRange(string value)
 		{
 			decimal d;
-			if(decimal.TryParse(value, out d))
-				return d;
+			if (decimal.TryParse(value, out d))
+			{
+				// Req 5. Make any value greater than 1000 an invalid number, otherwise use 0
+				if(d <= MAX_INPUT_VALUE)
+					return d;
+			}
 			return 0;
 		}
 	}	// class
