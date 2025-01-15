@@ -81,6 +81,24 @@ namespace CalculatorApp.Tests
 			value = calculatorService.GetSum("//,\n2,ff,100", false);
 			Assert.AreEqual("102", value);
 
+			value = calculatorService.GetSum("//,\n", false);
+			Assert.AreEqual("0", value);
+
+			// Req 7. Support 1 custom delimiter of any length using the format: //[{delimiter}]\n{numbers}
+			value = calculatorService.GetSum("//[***]\n11***22***33", false);
+			Assert.AreEqual("66", value);
+
+			value = calculatorService.GetSum("   //[***]\n11***22***33    ", false); // should ignore whitespace
+			Assert.AreEqual("66", value);
+
+			value = calculatorService.GetSum("//[***]\n", false);
+			Assert.AreEqual("0", value);
+
+			value = calculatorService.GetSum("//[***]\n11***22\n33,//[]\n", false);
+			Assert.AreEqual("66", value);
+
+			value = calculatorService.GetSum("//[12]\n5125", false);
+			Assert.AreEqual("10", value);
 		}
 	}	// class
 }	// namespace
