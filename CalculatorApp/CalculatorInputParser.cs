@@ -8,16 +8,12 @@ namespace CalculatorApp
 	public class CalculatorInputParser : ICalculatorInputParser
 	{
 		/// <summary>
-		/// Default delimiters
-		/// </summary>
-		private static readonly List<string> DEFAULT_DELIMITERS =  [",", "\n"];
-
-		/// <summary>
 		/// Extract input args from single input string
 		/// </summary>
 		/// <param name="input">input string  of form //{delimiter}\n{numbers} or {numbers}</param>
+		/// <param name="defaultDelimiters">Default delimiters to include</param>
 		/// <returns></returns>
-		public string[] GetInputs(string? input)
+		public string[] GetInputs(string? input, IEnumerable<string> defaultDelimiters)
 		{
 			if (string.IsNullOrWhiteSpace(input))
 				input = "0";
@@ -25,7 +21,7 @@ namespace CalculatorApp
 			input = input.TrimStart();
 
 			// make sure to reset delimiters each time parsing input
-			var delimiters = DEFAULT_DELIMITERS.ToList();
+			var delimiters = defaultDelimiters.ToList();
 
 			// Req 8. Support multiple delimiters of any length using the format: //[{delimiter1}][{delimiter2}]...\n{numbers}
 			// Could use RegEx here but is simple enough to parse manually

@@ -14,12 +14,15 @@ namespace CalculatorApp.Tests
 
 			var calculatorService = _serviceProvider.GetRequiredService<ICalculatorService>();
 
+			// Test empty case
 			var value = calculatorService.GetSum("", false);
 			Assert.AreEqual("0", value);
 
+			// Stretch goal 1 - show formula option in backend
 			value = calculatorService.GetSum("", true);
 			Assert.AreEqual("0 = 0", value);
 
+			// Test basic scenarios
 			value = calculatorService.GetSum("1", false);
 			Assert.AreEqual("1", value);
 
@@ -113,6 +116,25 @@ namespace CalculatorApp.Tests
 			value = calculatorService.GetSum(" //[*][!!][x]]\n1*2!!3*0!!2", false);
 			Assert.AreEqual("8", value);
 
-		}
+			value = calculatorService.GetSum(" //[*][!!][x]]\n1*2!!3*!!2", true);
+			Assert.AreEqual("1+2+3+0+2 = 8", value);
+
+			// Stretch goal 3 - alternate delimiter backend support.
+			// todo: As the # of options grows, we should consider converting this to an Options class
+			value = calculatorService.GetSum("1@2@3", false, false, 1000, ["@"]);
+			Assert.AreEqual("6", value);
+
+			value = calculatorService.GetSum("1@2@3", false, false, 1000, ["#"]);
+			Assert.AreEqual("0", value);
+
+			// Stretch goal 3 - toggle deny negatives backend support
+			value = calculatorService.GetSum("-1,-2", false, true, 1000, [","]);
+			Assert.AreEqual("-3", value);
+
+			// Stretch goal 3 - custom upper bound backend support
+			value = calculatorService.GetSum("1001,1002,1003", false, false, 1002, [","]);
+			Assert.AreEqual("2003", value);
+
+		}	// TestGetSum
 	}	// class
 }	// namespace

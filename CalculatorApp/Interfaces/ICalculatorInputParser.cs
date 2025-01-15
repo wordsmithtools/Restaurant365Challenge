@@ -5,6 +5,12 @@
 	/// </summary>
 	public interface ICalculatorInputParser
 	{
-		string[] GetInputs(string? input);
-	}
-}
+		/// <summary>
+		/// Extract input args from single input string
+		/// </summary>
+		/// <param name="input">input string to parse</param>
+		/// <param name="defaultDelimiters">default delimiters to use in addition to parsed delimiters</param>
+		/// <returns></returns>
+		string[] GetInputs(string? input, IEnumerable<string> defaultDelimiters);
+	}	// interface
+}	// namespace
