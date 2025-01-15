@@ -6,6 +6,11 @@
 	public class CalculatorService : ICalculatorService
 	{
 		/// <summary>
+		/// Supported delimiters
+		/// </summary>
+		protected char[] _delimiters = { ',', '\n' };
+
+		/// <summary>
 		/// Sum a maximum of 2 numbers using a comma delimiter
 		/// </summary>
 		/// <param name="input">input values separated by comma</param>
@@ -15,7 +20,7 @@
 		{
 			if (string.IsNullOrWhiteSpace(input))
 				input = "0";
-			var parts = input.Split(',');
+			var parts = input.Split(_delimiters);
 
 			ValidateInput(parts);
 

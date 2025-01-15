@@ -47,6 +47,14 @@ namespace CalculatorApp.Tests
 			value = calculatorService.GetSum("1,2,3,4,5,6,7,8,9,10,11,12", false);
 			Assert.AreEqual("78", value);
 
+			// Req 3. Support newline as alternative delimiter
+			value = calculatorService.GetSum("1\n2,3", false);
+			Assert.AreEqual("6", value);
+
+			value = calculatorService.GetSum("-1\n2\nabc", false);
+			Assert.AreEqual("1", value);
+
+
 			// constraint removed in Req. 2
 			//bool failed = false;
 			//try
