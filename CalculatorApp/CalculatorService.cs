@@ -33,9 +33,10 @@
 		/// <exception cref="Exception"></exception>
 		void ValidateInput(string[] parts)
 		{
+			// This constraint removed 1/15/2025 per Requirement #2
 			// Throw an exception when more than 2 numbers are provided
-			if (parts.Length > 2)
-				throw new Exception("A maximum of 2 numbers may be provided");
+			// if (parts.Length > 2)
+			//	throw new Exception("A maximum of 2 numbers may be provided");
 		}
 
 		/// <summary>

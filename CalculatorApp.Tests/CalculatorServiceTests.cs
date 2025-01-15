@@ -44,17 +44,20 @@ namespace CalculatorApp.Tests
 			value = calculatorService.GetSum("1,abc", true);
 			Assert.AreEqual("1+0 = 1", value);
 
-			bool failed = false;
-			try
-			{
-				value = calculatorService.GetSum("1,2,3", false);
-			}
-			catch (Exception)
-			{ 
-				failed = true;
-			}
+			value = calculatorService.GetSum("1,2,3,4,5,6,7,8,9,10,11,12", false);
+			Assert.AreEqual("78", value);
 
-			Assert.IsTrue(failed, "This should have thrown an exception as there are too many values");
+			// constraint removed in Req. 2
+			//bool failed = false;
+			//try
+			//{
+			//	value = calculatorService.GetSum("1,2,3", false);
+			//}
+			//catch (Exception)
+			//{ 
+			//	failed = true;
+			//}
+			//Assert.IsTrue(failed, "This should have thrown an exception as there are too many values");
 
 		}
 	}
